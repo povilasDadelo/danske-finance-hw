@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import Modal from './Modal'
+import { range, calcIndex } from '../utils/index'
+import Modal from '../components/Modal'
 
 const Container = styled.div`
   display: flex;
@@ -10,13 +11,11 @@ const Container = styled.div`
 const StyledButton = styled.button`
   margin-left: 10px;
 `
-
 const Line = styled.div`
   margin-bottom: 10px;
   display: flex;
   font-size: 14px;
 `
-
 const Title = styled.div`
   margin-right: 5px;
   font-weight: bold;
@@ -42,8 +41,8 @@ function App({ fetchUser, showModal, toggleModal, user, affordability, exposure 
   }
 
   return (
-    <Container className="App">
-      <input type="text" value={inputValue} onChange={handleInputChange} />
+    <Container>
+      <input type='text' value={inputValue} onChange={handleInputChange} />
       <StyledButton disabled={disabled} onClick={submit}>Submit</StyledButton>
       <Modal show={showModal} handleClose={toggleModal}>
         <Line>
@@ -52,9 +51,11 @@ function App({ fetchUser, showModal, toggleModal, user, affordability, exposure 
         </Line>
         <Line>
           <Title>Affordability range:</Title>
+          {affordability && range(affordability)}
         </Line>
         <Line>
           <Title>Result:</Title>
+          {exposure && affordability && calcIndex(affordability, exposure)}
         </Line>
       </Modal>
     </Container>
